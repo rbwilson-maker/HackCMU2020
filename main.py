@@ -1,6 +1,9 @@
 
+
 import tkinter as tk
 import requests
+from tkinter import *
+from PIL import ImageTk,Image
 
 #from https://www.cs.cmu.edu/~112/notes/notes-graphics.html#customColors
 def rgbString(r, g, b):
@@ -97,6 +100,10 @@ def drawMask(canvas, margin, poleTopWidth, headRadius, poleBitLen):
     fill = 'black'
     canvas.create_rectangle(margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius, margin + poleBitLen + headRadius + 5, fill = fill)
     canvas.create_rectangle(15 + margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius - 15, margin + poleBitLen + headRadius + headRadius * maskRatio, fill = fill)
+    img = ImageTk.PhotoImage(Image.open('BigBoi32.png'))
+    canvas.img = img
+    canvas.pack()
+    canvas.create_image(margin+poleTopWidth, margin+poleBitLen+headRadius, image = img)
 
 def drawBody(canvas, margin, poleTopWidth, poleBitLen, headRadius, bodyLength):
     canvas.create_line(margin + poleTopWidth, margin + poleBitLen + headRadius * 2, margin + poleTopWidth, margin + poleBitLen + headRadius * 2 + bodyLength, width = 10)
