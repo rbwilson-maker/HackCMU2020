@@ -69,3 +69,4 @@ canvas.create_line(margin + poleTopWidth - headRadius, margin + poleBitLen + hea
 canvas.create_line(margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius + headRadius * 0.75, margin + poleTopWidth + headRadius, margin + poleBitLen + headRadius + headRadius * 0.75)
 canvas.create_line(margin + poleTopWidth - headRadius * 0.75, margin + poleBitLen + headRadius, margin + poleTopWidth - headRadius * 0.75, margin + poleBitLen + headRadius + headRadius * 0.75)
 canvas.create_line(margin + poleTopWidth + headRadius * 0.75, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius * 0.75, margin + poleBitLen + headRadius + headRadius * 0.75)
+
