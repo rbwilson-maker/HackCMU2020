@@ -5,23 +5,12 @@ Goal: make a program like hangman that gets closer to the person's death based o
 
 Source: https://covidtracking.com/data/api
 
-'nd': 'North Dakota'
-'oh': 'Ohio'
-'ok': 'Oklahoma'
-'or': 'Oregon'
-'pw': 'Palau'
-'pa': "Pennsylvania"
-'pr': "Puerto Rico"
-'ri': 'Rhode Island'
-'sc': 'South Carolina'
-'sd': 'South Dakota'
-'tn': 'Tennessee'
-'tx': 'Texas'
-'ut': 'Utah'
-'vt': 'Vermont'
-'va': 'Virginia'
-'vi': 'Virgin Islands'
-'wa': 'Washington'
-'wv': 'West Virginia'
-'wi': 'Wisconsin'
-'wy': 'Wyoming'
+Script:
+
+Annika: Are you tired of looking at weird graphs and random numbers?? Me too!
+
+Steven: Well our Hangman COVID Tracker is an easy way to visualize data and guage the severity of the pandemic in the 56 united states and territories. 
+
+Maddie: When you type in a state, the program fills in the figure based on the most recent percentage of test positivity rate. 
+
+Rachel: As you can see, you can open multiple windows to compare states, and high and low percentages present different helpful messages.
