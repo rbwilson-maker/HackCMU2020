@@ -1,4 +1,5 @@
 
+
 import tkinter as tk
 import requests
 
@@ -27,18 +28,18 @@ def drawLabels(canvas, w, h, margin):
     maskBottomYRatio = 4
     
     canvas.create_oval(w - margin*leftMarginXRatio, margin*headTopRatioY, w - margin*rightMarginXRatio, margin*headBottomRatioY)
-    canvas.create_text(w - margin*textMarginRatio, margin*headRatioY, text = "> 2%", anchor = "nw")
+    canvas.create_text(w - margin*textMarginRatio, margin*headTopRatioY, text = "> 2%", anchor = "nw")
     canvas.create_line(w - margin*centerMarginXRatio, margin*bodyRatioY, w - margin*centerMarginXRatio, margin*bodyLenRatio)
     canvas.create_text(w - margin*textMarginRatio, margin*bodyRatioY, text = "> 4%", anchor = "nw")
     canvas.create_line(w - margin*leftMarginXRatio, margin*armRatioY, w - margin*rightMarginXRatio, margin*armRatioY)
     canvas.create_text(w - margin*textMarginRatio, margin*armTextRatioY, text = "> 6%", anchor = "nw")
     canvas.create_line(w - margin*centerMarginXRatio, margin*legTopYRatio, w - margin*leftMarginXRatio, margin*legBottomYRatio)
-    canvas.create_line(w - margin*centerMarginXRatio, margin*lefTopYRatio, w - margin*rightMarginXRatio, margin*legBottomYRatio)
+    canvas.create_line(w - margin*centerMarginXRatio, margin*legTopYRatio, w - margin*rightMarginXRatio, margin*legBottomYRatio)
     canvas.create_text(w - margin*textMarginRatio, margin*legTopYRatio, text = "> 8%", anchor = "nw")
     canvas.create_line(w - margin*leftMarginXRatio, margin*maskTopYRatio, w - margin*rightMarginXRatio, margin*maskTopYRatio)
     canvas.create_rectangle(w - margin*maskLeftXRatio, margin*maskTopYRatio, w - margin*maskRightXRatio, margin*maskBottomYRatio, fill = "black")
     canvas.create_text(w - margin*textMarginRatio, margin*maskTopYRatio, text = "> 10%", anchor = "nw")
- 
+
 def getCases(state, increment):
     if (len(state)!=2):
         validState = False
@@ -78,15 +79,15 @@ def drawBackground(canvas, w, h, margin):
     #canvas.create_text(w/2, h/2, text="CMU", font="Roboto 215 bold", fill = darkRed)
 
 def drawPole(canvas, h, margin, poleLength, poleBaseWidth, poleTopWidth, poleX, poleBitLen):
-    #to make post/pole#
+    thickness = 10
     #vertical pole#
-    canvas.create_line(poleX, margin, poleX, margin + poleLength, width=10)
+    canvas.create_line(poleX, margin, poleX, margin + poleLength, width=thickness)
     #pole base#
-    canvas.create_line(margin, h - margin, margin + poleBaseWidth, h - margin, width = 10)
-    #top of pole#
-    canvas.create_line(margin + poleTopWidth, margin, margin + poleTopWidth, margin + poleBitLen, width =10)
-    #extra pole bit on top
-    canvas.create_line(margin + poleBaseWidth // 2, margin, margin + poleTopWidth, margin, width = 10)
+    canvas.create_line(margin, h - margin, margin + poleBaseWidth, h - margin, width = thickness)
+    #pole bit#
+    canvas.create_line(margin + poleTopWidth, margin-thickness//2, margin + poleTopWidth, margin + poleBitLen+thickness//2, width =thickness)
+    #pole top#
+    canvas.create_line(margin + poleBaseWidth // 2 - thickness//2, margin, margin + poleTopWidth, margin, width = thickness)
 
 def drawHead(canvas, margin, headRadius, poleBitLen, poleTopWidth):
     canvas.create_oval(margin + poleTopWidth - headRadius, margin + poleBitLen, margin + poleTopWidth + headRadius, margin + poleBitLen + 2 * headRadius, width = 10, fill = "white")
@@ -131,8 +132,6 @@ def drawHangman(canvas, w, h, state):
     drawLabels(canvas, w, h, margin)
     drawPole(canvas, h, margin, poleLength, poleBaseWidth, poleTopWidth, poleX, poleBitLen)
 
-    
-    
     #displays data
     canvas.create_text(w-margin, margin, text = f"State: {state.upper()}", anchor = 'ne', font = "Nunito 20 bold")
     canvas.create_text(w-margin, margin+20, text = "Positivity rate: %0.2f" % (caseRatio*100) + "%", anchor = 'ne', font = "Nunito 15 bold")
@@ -148,8 +147,7 @@ def drawHangman(canvas, w, h, state):
                 drawArms(canvas, margin, poleTopWidth, armWidth, poleBitLen, bodyLength, headRadius)
                 if (caseRatio > 4*increment):
                     drawLegs(canvas, h, margin, poleTopWidth, poleBitLen, headRadius, bodyLength, armWidth)
-                    #if(caseRatio> 5*increment):
-                        #canvas.create_text(w/2, h/2, text="!!!GO HOME!!!", font = "Nunito 58 bold", fill = rgbString(240,240,50))
+                    
     makeCanvas(w,h)
 
 def makeCanvas(w, h):
