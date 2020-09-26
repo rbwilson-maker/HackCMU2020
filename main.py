@@ -15,20 +15,16 @@ def drawLabels(canvas, w, h, margin):
     canvas.create_line(w - margin*2.75, margin*3.375, w - margin*2.25, margin*3.375)
     canvas.create_text(w - margin*2, margin*3.25, text = "> 6%", anchor = "nw")
     
-def getCases(state):
+def getCases(state, increment):
     state = state
     r = requests.get(' https://api.covidtracking.com/v1/states/' + state + '/current.json')
     d = r.json()
     positive = d['positiveIncrease']
-    #recovered = d['recovered']
     total = d['totalTestResultsIncrease']
-    #active = positive - recovered
-        
-    #population = 1280000
-    #cases = int(input("How many COVID cases? "))
+
     caseRatio = positive/total
-    increment = 0.01
-    return caseRatio, increment
+    increment = increment
+    return caseRatio
 
 def drawBackground(canvas, w, h, margin):
     red = rgbString(196, 18, 48)
@@ -80,27 +76,30 @@ def drawLegs(canvas, h, margin, poleTopWidth, poleBitLen, headRadius, bodyLength
     canvas.create_line(margin + poleTopWidth, margin + poleBitLen + headRadius * 2 + bodyLength, margin + poleTopWidth - armWidth // 2, h - margin * 2, width = 10)
     canvas.create_line(margin + poleTopWidth, margin + poleBitLen + headRadius * 2 + bodyLength, margin + poleTopWidth + armWidth // 2, h - margin * 2, width = 10)
 
-def drawHangman(canvas, w, h):
+def drawHangman(canvas, w, h, state):
     #variables#
     margin = 50
     poleLength = h - 2 * margin
     poleBaseWidth = w // 10
-    poleTopWidth = w // 3
+    poleTopWidth = w // 5 *2
     poleX = margin + poleBaseWidth // 2
     poleBitLen = h // 10
     headRadius = h // 10
     bodyLength = 2.5 * headRadius
     armWidth = 3.5 * headRadius
+    increment = 0.015
     
     drawBackground(canvas,w,h, margin)
-    drawPole(canvas, h, margin, poleLength, poleBaseWidth, poleTopWidth, poleX, poleBitLen)
     drawLabels(canvas, w, h, margin)
+    drawPole(canvas, h, margin, poleLength, poleBaseWidth, poleTopWidth, poleX, poleBitLen)
     
-    state = 'tx'
-    caseRatio, increment = getCases(state)
-
+    state = state
+    caseRatio = getCases(state, increment)
+    #displayRatio = float("0.2f"%(caseRatio*100))
     #displays data
-    #canvas.create_text()
+    canvas.create_text(w-margin, margin, text = f"State: {state.upper()}", anchor = 'ne', font = "Nunito 20 bold")
+    canvas.create_text(w-margin, margin+20, text = "Positivity rate: %0.2f" % (caseRatio*100) + "%", anchor = 'ne', font = "Nunito 15 bold")
+    
 
     #makes body based on cases#
     if (caseRatio > increment):
@@ -120,7 +119,8 @@ def makeCanvas(w, h):
     canvas = tk.Canvas(root, width=w, height=h)
     canvas.configure(bd=0, highlightthickness=0)
     canvas.pack()
-    drawHangman(canvas, w, h)
+    state = input('What state would you like to see results for (use state abbreviation)?').lower()
+    drawHangman(canvas, w, h, state)
     root.mainloop()
-
+    
 makeCanvas(500, 500)
