@@ -19,13 +19,14 @@ def drawLabels(canvas, w, h, margin):
     armTextRatioY = 3.375
     centerMarginXRatio = 2.5
     bodyLenRatio = 3.125
-    armRatioY = 3.625
-    legTopYRatio = 3.875
-    legBottomYRatio = 4.125
+    armRatioY = 3.57
+    legTopYRatio = 3.88
+    legBottomYRatio = 4.225
     maskTopYRatio = 4.625
     maskLeftXRatio = 2.625
     maskRightXRatio = 2.375
-    maskBottomYRatio = 5
+    maskBottomYRatio = 4.75
+    maskTextRatio = 4.5
     
     canvas.create_oval(w - margin*leftMarginXRatio, margin*headTopRatioY, w - margin*rightMarginXRatio, margin*headBottomRatioY)
     canvas.create_text(w - margin*textMarginRatio, margin*headTopRatioY, text = "> 2%", anchor = "nw")
@@ -38,7 +39,7 @@ def drawLabels(canvas, w, h, margin):
     canvas.create_text(w - margin*textMarginRatio, margin*legTopYRatio, text = "> 8%", anchor = "nw")
     canvas.create_line(w - margin*leftMarginXRatio, margin*maskTopYRatio, w - margin*rightMarginXRatio, margin*maskTopYRatio)
     canvas.create_rectangle(w - margin*maskLeftXRatio, margin*maskTopYRatio, w - margin*maskRightXRatio, margin*maskBottomYRatio, fill = "black")
-    canvas.create_text(w - margin*textMarginRatio, margin*maskTopYRatio, text = "> 10%", anchor = "nw")
+    canvas.create_text(w - margin*textMarginRatio, margin*maskTextRatio, text = "> 10%", anchor = "nw")
 
 def getCases(state, increment):
     if (len(state)!=2):
