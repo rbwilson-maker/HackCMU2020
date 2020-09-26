@@ -8,9 +8,13 @@ def rgbString(r, g, b):
     return f'#{r:02x}{g:02x}{b:02x}'
 
 def drawLabels(canvas, w, h, margin):
-    canvas.create_oval(w - margin*2.5, margin*2.5, w - margin*2, margin*3)
-    canvas.create_text(w - margin*1.75, margin*2.5, text = ">= 2%", anchor = "nw" )
-
+    canvas.create_oval(w - margin*2.75, margin*2, w - margin*2.25, margin*2.5)
+    canvas.create_text(w - margin*2, margin*2, text = "> 2%", anchor = "nw")
+    canvas.create_line(w - margin*2.5, margin*2.75, w - margin*2.5, margin*3)
+    canvas.create_text(w - margin*2, margin*2.875, text = "> 4%", anchor = "nw")
+    canvas.create_line(w - margin*2.75, margin*3.375, w - margin*2.25, margin*3.375)
+    canvas.create_text(w - margin*2, margin*3.25, text = "> 6%", anchor = "nw")
+    
 def getCases(state):
     state = state
     r = requests.get(' https://api.covidtracking.com/v1/states/' + state + '/current.json')
