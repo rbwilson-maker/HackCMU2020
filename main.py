@@ -1,7 +1,7 @@
-
-
 import tkinter as tk
 import requests
+from tkinter import *
+from PIL import ImageTk,Image
 
 #from https://www.cs.cmu.edu/~112/notes/notes-graphics.html#customColors
 def rgbString(r, g, b):
@@ -19,15 +19,14 @@ def drawLabels(canvas, w, h, margin):
     armTextRatioY = 3.375
     centerMarginXRatio = 2.5
     bodyLenRatio = 3.125
-    armRatioY = 3.57
-    legTopYRatio = 3.88
-    legBottomYRatio = 4.225
-    maskTopYRatio = 4.625
+    armRatioY = 3.5
+    legTopYRatio = 3.75
+    legBottomYRatio = 3.875
+    maskTopYRatio = 4.125
     maskLeftXRatio = 2.625
     maskRightXRatio = 2.375
-    maskBottomYRatio = 4.75
-    maskTextRatio = 4.5
-    
+    maskBottomYRatio = 4.25
+
     canvas.create_oval(w - margin*leftMarginXRatio, margin*headTopRatioY, w - margin*rightMarginXRatio, margin*headBottomRatioY)
     canvas.create_text(w - margin*textMarginRatio, margin*headTopRatioY, text = "> 2%", anchor = "nw")
     canvas.create_line(w - margin*centerMarginXRatio, margin*bodyRatioY, w - margin*centerMarginXRatio, margin*bodyLenRatio)
@@ -39,7 +38,7 @@ def drawLabels(canvas, w, h, margin):
     canvas.create_text(w - margin*textMarginRatio, margin*legTopYRatio, text = "> 8%", anchor = "nw")
     canvas.create_line(w - margin*leftMarginXRatio, margin*maskTopYRatio, w - margin*rightMarginXRatio, margin*maskTopYRatio)
     canvas.create_rectangle(w - margin*maskLeftXRatio, margin*maskTopYRatio, w - margin*maskRightXRatio, margin*maskBottomYRatio, fill = "black")
-    canvas.create_text(w - margin*textMarginRatio, margin*maskTextRatio, text = "> 10%", anchor = "nw")
+    canvas.create_text(w - margin*textMarginRatio, margin*maskTopYRatio, text = "> 10%", anchor = "nw")
 
 def getCases(state, increment):
     if (len(state)!=2):
@@ -96,8 +95,15 @@ def drawHead(canvas, margin, headRadius, poleBitLen, poleTopWidth):
 def drawMask(canvas, margin, poleTopWidth, headRadius, poleBitLen):
     maskRatio = 0.75
     fill = 'black'
-        canvas.create_rectangle(margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius, 1.1*margin + poleBitLen + headRadius, fill = fill)
-    canvas.create_rectangle(1.3* margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius, 0.7*margin + poleTopWidth + headRadius, margin + poleBitLen + headRadius + headRadius * maskRatio, fill = fill)
+    canvas.create_rectangle(margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius, margin + poleBitLen + headRadius + 5, fill = fill)
+    canvas.create_rectangle(15 + margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius - 15, margin + poleBitLen + headRadius + headRadius * maskRatio, fill = fill)
+
+    #https://www.c-sharpcorner.com/blogs/basics-for-displaying-image-in-tkinter-python
+    root = tk.Tk()
+    canvas.pack()
+    img = ImageTk.PhotoImage(Image.open("BigBoi32.png"))
+    canvas.create_image(230, 150, anchor=NW, image=img)
+    root.mainloop()
 
 def drawBody(canvas, margin, poleTopWidth, poleBitLen, headRadius, bodyLength):
     canvas.create_line(margin + poleTopWidth, margin + poleBitLen + headRadius * 2, margin + poleTopWidth, margin + poleBitLen + headRadius * 2 + bodyLength, width = 10)
@@ -121,7 +127,7 @@ def drawHangman(canvas, w, h, state):
     bodyLength = 2.5 * headRadius
     armWidth = 3.5 * headRadius
     increment = 0.015
-    
+
     state = state
     caseRatio, validState = getCases(state, increment)
     while(not validState):
@@ -148,7 +154,7 @@ def drawHangman(canvas, w, h, state):
                 drawArms(canvas, margin, poleTopWidth, armWidth, poleBitLen, bodyLength, headRadius)
                 if (caseRatio > 4*increment):
                     drawLegs(canvas, h, margin, poleTopWidth, poleBitLen, headRadius, bodyLength, armWidth)
-                    
+
     makeCanvas(w,h)
 
 def makeCanvas(w, h):
@@ -159,5 +165,5 @@ def makeCanvas(w, h):
     canvas.pack()
     drawHangman(canvas, w, h, state)
     root.mainloop()
-    
+
 makeCanvas(500, 500)
