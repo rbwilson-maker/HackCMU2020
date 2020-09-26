@@ -7,6 +7,10 @@ def rgbString(r, g, b):
     # it says to use hex (base 16) with two digits.
     return f'#{r:02x}{g:02x}{b:02x}'
 
+def drawLabels(canvas, w, h, margin):
+    canvas.create_circle(w - margin*2.5, margin*2.5, w - margin*2, margin*3)
+    canvas.create_text(w - margin*1.75, margin*2.5, text = ">= 2%", anchor = "nw" )
+
 def getCases(state):
     state = state
     r = requests.get(' https://api.covidtracking.com/v1/states/' + state + '/current.json')
@@ -88,6 +92,7 @@ def drawHangman(canvas, w, h):
     
     drawBackground(canvas,w,h, margin)
     drawPole(canvas, h, margin, poleLength, poleBaseWidth, poleTopWidth, poleX, poleBitLen)
+    drawLabels(canvas, w, h, margin)
     
     state = 'tx'
     caseRatio, increment = getCases(state)
