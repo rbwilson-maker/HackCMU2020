@@ -19,13 +19,13 @@ def drawLabels(canvas, w, h, margin):
     armTextRatioY = 3.375
     centerMarginXRatio = 2.5
     bodyLenRatio = 3.125
-    armRatioY = 3.5
-    legTopYRatio = 3.75
-    legBottomYRatio = 3.875
-    maskTopYRatio = 4.125
+    armRatioY = 3.625
+    legTopYRatio = 3.875
+    legBottomYRatio = 4.125
+    maskTopYRatio = 4.625
     maskLeftXRatio = 2.625
     maskRightXRatio = 2.375
-    maskBottomYRatio = 4.25
+    maskBottomYRatio = 5
     
     canvas.create_oval(w - margin*leftMarginXRatio, margin*headTopRatioY, w - margin*rightMarginXRatio, margin*headBottomRatioY)
     canvas.create_text(w - margin*textMarginRatio, margin*headTopRatioY, text = "> 2%", anchor = "nw")
