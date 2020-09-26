@@ -1,3 +1,4 @@
+
 import tkinter as tk
 import requests
 
@@ -16,15 +17,22 @@ def drawLabels(canvas, w, h, margin):
     canvas.create_text(w - margin*2, margin*3.25, text = "> 6%", anchor = "nw")
     
 def getCases(state, increment):
-    state = state
+    if (len(state)!=2):
+        validState = False
+        return None, validState
     r = requests.get(' https://api.covidtracking.com/v1/states/' + state + '/current.json')
     d = r.json()
     positive = d['positiveIncrease']
     total = d['totalTestResultsIncrease']
 
-    caseRatio = positive/total
-    increment = increment
-    return caseRatio
+    if total ==0 or (positive == None) or (total == None):
+        validState = False
+        return None, validState
+    else:
+        validState = True
+        caseRatio = positive/total
+        increment = increment
+        return caseRatio, validState
 
 def drawBackground(canvas, w, h, margin):
     red = rgbString(196, 18, 48)
@@ -89,13 +97,19 @@ def drawHangman(canvas, w, h, state):
     armWidth = 3.5 * headRadius
     increment = 0.015
     
+    state = state
+    caseRatio, validState = getCases(state, increment)
+    while(not validState):
+        state = input("Not enough data for that state. Please choose another:")
+        state = state.strip().lower()
+        caseRatio, validState = getCases(state, increment)
+
     drawBackground(canvas,w,h, margin)
     drawLabels(canvas, w, h, margin)
     drawPole(canvas, h, margin, poleLength, poleBaseWidth, poleTopWidth, poleX, poleBitLen)
+
     
-    state = state
-    caseRatio = getCases(state, increment)
-    #displayRatio = float("0.2f"%(caseRatio*100))
+    
     #displays data
     canvas.create_text(w-margin, margin, text = f"State: {state.upper()}", anchor = 'ne', font = "Nunito 20 bold")
     canvas.create_text(w-margin, margin+20, text = "Positivity rate: %0.2f" % (caseRatio*100) + "%", anchor = 'ne', font = "Nunito 15 bold")
@@ -113,13 +127,14 @@ def drawHangman(canvas, w, h, state):
                     drawLegs(canvas, h, margin, poleTopWidth, poleBitLen, headRadius, bodyLength, armWidth)
                     #if(caseRatio> 5*increment):
                         #canvas.create_text(w/2, h/2, text="!!!GO HOME!!!", font = "Nunito 58 bold", fill = rgbString(240,240,50))
+    makeCanvas(w,h)
 
 def makeCanvas(w, h):
+    state = input("Which state (use abbreviation)?").strip().lower()
     root = tk.Tk()
     canvas = tk.Canvas(root, width=w, height=h)
     canvas.configure(bd=0, highlightthickness=0)
     canvas.pack()
-    state = input('What state would you like to see results for (use state abbreviation)?').lower()
     drawHangman(canvas, w, h, state)
     root.mainloop()
     
