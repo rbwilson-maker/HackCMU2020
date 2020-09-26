@@ -135,7 +135,7 @@ def drawHangman(canvas, w, h, state):
     #displays data
     canvas.create_text(w-margin, margin, text = f"State: {state.upper()}", anchor = 'ne', font = "Nunito 20 bold")
     canvas.create_text(w-margin, margin+20, text = "Positivity rate: %0.2f" % (caseRatio*100) + "%", anchor = 'ne', font = "Nunito 15 bold")
-    
+    canvas.create_text(w-margin, h-margin, text = "Source: https://covidtracking.com", anchor = "se", font = "Nunito 7")
 
     #makes body based on cases#
     if (caseRatio > increment):
