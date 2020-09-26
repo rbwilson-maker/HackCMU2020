@@ -1,5 +1,6 @@
 
 
+
 import tkinter as tk
 import requests
 from tkinter import *
@@ -43,14 +44,15 @@ def drawLabels(canvas, w, h, margin):
     canvas.create_rectangle(w - margin*maskLeftXRatio, margin*maskTopYRatio, w - margin*maskRightXRatio, margin*maskBottomYRatio, fill = "black")
     canvas.create_text(w - margin*textMarginRatio, margin*maskTextRatio, text = "> 5%", anchor = "nw")
 
-def getCases(state, increment):
-    if (len(state)!=2):
+def getCases(states, state, increment):
+    
+    if not (state in states.keys()) or (len(state)!=2):
         validState = False
         return None, validState
     r = requests.get(' https://api.covidtracking.com/v1/states/' + state + '/current.json')
     d = r.json()
-    positive = d['positiveIncrease']
-    total = d['totalTestResultsIncrease']
+    positive = abs(d['positiveIncrease'])
+    total = abs(d['totalTestResultsIncrease'])
 
     if total ==0 or (positive == None) or (total == None):
         validState = False
@@ -128,17 +130,6 @@ def drawHangman(canvas, w, h, state):
     bodyLength = 2.5 * headRadius
     armWidth = 3.5 * headRadius
     increment = 0.01
-    
-    caseRatio, validState = getCases(state, increment)
-    while(not validState):
-        state = input("Not enough data for that state. Please choose another:")
-        state = state.strip().lower()
-        caseRatio, validState = getCases(state, increment)
-
-    drawBackground(canvas,w,h, margin)
-    drawLabels(canvas, w, h, margin)
-    drawPole(canvas, h, margin, poleLength, poleBaseWidth, poleTopWidth, poleX, poleBitLen)
-
     states = {
         'az' : 'Arizona',
         'ak' : 'Alaska',
@@ -150,7 +141,6 @@ def drawHangman(canvas, w, h, state):
         'de': 'Delaware',
         'fl': 'Florida',
         'ga': 'Georgia',
-        'hi' : 'Hawaii',
         'id' : 'Idaho',
         'il' : 'Illinois',
         'in' : 'Indiana',
@@ -168,17 +158,14 @@ def drawHangman(canvas, w, h, state):
         'mt': 'Montana',
         'ne': 'Nebraska',
         'nv': 'Nevada',
-        'nh': 'New Hampshire',
         'nm': 'New Mexico',
         'ny': 'New York',
         'nc': 'North Carolina',
         'nd': 'North Dakota',
         'oh': 'Ohio',
         'ok': 'Oklahoma', 
-        'or': 'Oregon', 
-        'pw': 'Palau',
+        'or': 'Oregon',
         'pa': "Pennsylvania", 
-        'pr': "Puerto Rico", 
         'ri': 'Rhode Island', 
         'sc': 'South Carolina', 
         'sd': 'South Dakota', 
@@ -193,15 +180,24 @@ def drawHangman(canvas, w, h, state):
         'wi': 'Wisconsin',
         'wy': 'Wyoming',
         'dc': 'Washington DC',
-        'gu': 'Guam',
-        'pr': 'Puerto Rico'
+        'gu': 'Guam'
     }
+    caseRatio, validState = getCases(states, state, increment)
+    while(not validState):
+        state = input("Not enough data for that state. Please choose another:")
+        state = state.strip().lower()
+        caseRatio, validState = getCases(states, state, increment)
 
+    drawBackground(canvas,w,h, margin)
+    drawLabels(canvas, w, h, margin)
+    drawPole(canvas, h, margin, poleLength, poleBaseWidth, poleTopWidth, poleX, poleBitLen)
+    canvas.create_text(poleX+10, margin+10, text = 'Hangman COVID-19 \nTracker', anchor = 'nw', font = 'Nunito 15 bold')
+    
 
     printState = states.get(state)
     #displays data
-    canvas.create_text(w-margin, margin, text = f"State: {printState}", anchor = 'ne', font = "Nunito 20 bold")
-    canvas.create_text(w-margin, margin+20, text = "Positivity rate: %0.2f" % (caseRatio*100) + "%", anchor = 'ne', font = "Nunito 15 bold")
+    canvas.create_text(w-margin, margin, text = f"State: {printState}", anchor = 'ne', font = "Nunito 18 bold")
+    canvas.create_text(w-margin, margin+25, text = "Positivity rate: %0.2f" % (caseRatio*100) + "%", anchor = 'ne', font = "Nunito 15 bold")
     canvas.create_text(w-(margin//2), h-(margin//2), text = "Source: https://covidtracking.com", anchor = "se", font = "Nunito 7")
 
     #makes body based on cases#
