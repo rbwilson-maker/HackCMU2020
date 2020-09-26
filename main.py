@@ -63,10 +63,8 @@ def drawHead(canvas, margin, headRadius, poleBitLen, poleTopWidth):
 def drawMask(canvas, margin, poleTopWidth, headRadius, poleBitLen):
     maskRatio = 0.75
     fill = 'black'
-    canvas.create_line(margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius, margin + poleBitLen + headRadius, fill = fill)
-    canvas.create_line(margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius + headRadius * maskRatio, margin + poleTopWidth + headRadius, margin + poleBitLen + headRadius + headRadius * maskRatio, fill = fill)
-    canvas.create_line(margin + poleTopWidth - headRadius * maskRatio, margin + poleBitLen + headRadius, margin + poleTopWidth - headRadius * maskRatio, margin + poleBitLen + headRadius + headRadius * maskRatio, fill = fill)
-    canvas.create_line(margin + poleTopWidth + headRadius * maskRatio, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius * maskRatio, margin + poleBitLen + headRadius + headRadius * maskRatio, fill = fill)
+    canvas.create_rectangle(margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius, margin + poleBitLen + headRadius + 5, fill = fill)
+    canvas.create_rectangle(15 + margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius - 15, margin + poleBitLen + headRadius + headRadius * maskRatio, fill = fill)
 
 def drawBody(canvas, margin, poleTopWidth, poleBitLen, headRadius, bodyLength):
     canvas.create_line(margin + poleTopWidth, margin + poleBitLen + headRadius * 2, margin + poleTopWidth, margin + poleBitLen + headRadius * 2 + bodyLength, width = 10)
