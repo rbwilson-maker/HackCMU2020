@@ -4,8 +4,6 @@ import tkinter as tk
 import requests
 from tkinter import *
 from PIL import ImageTk,Image
-from tkinter import simpledialog
-from tkinter import messagebox
 
 #from https://www.cs.cmu.edu/~112/notes/notes-graphics.html#customColors
 def rgbString(r, g, b):
