@@ -63,3 +63,9 @@ def makeCanvas(w, h):
     root.mainloop()
 
 makeCanvas(500, 500)
+
+###adding mask here dont know how you wanna put it in###
+canvas.create_line(margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius, margin + poleBitLen + headRadius)
+canvas.create_line(margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius + headRadius * 0.75, margin + poleTopWidth + headRadius, margin + poleBitLen + headRadius + headRadius * 0.75)
+canvas.create_line(margin + poleTopWidth - headRadius * 0.75, margin + poleBitLen + headRadius, margin + poleTopWidth - headRadius * 0.75, margin + poleBitLen + headRadius + headRadius * 0.75)
+canvas.create_line(margin + poleTopWidth + headRadius * 0.75, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius * 0.75, margin + poleBitLen + headRadius + headRadius * 0.75)
