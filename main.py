@@ -54,6 +54,16 @@ def drawHangman(canvas, w, h):
                         canvas.create_line(margin + poleTopWidth, margin + poleBitLen + headRadius * 2 + bodyLength, margin + poleTopWidth + armWidth // 2, h - margin * 2, width = 10)
                         canvas.create_text(w/2, h/2, text="!!!GO HOME!!!", font = "Nunito 58 bold", fill = rgbString(240,240,50))
 
+def drawMask(canvas, margin, poleTopWidth, headRadius, poleBitLen):
+    maskRatio = 0.75
+    canvas.create_line(margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius, margin + poleBitLen + headRadius)
+    canvas.create_line(margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius + headRadius * maskRatio, margin + poleTopWidth + headRadius, margin + poleBitLen + headRadius + headRadius * maskRatio)
+    canvas.create_line(margin + poleTopWidth - headRadius * maskRatio, margin + poleBitLen + headRadius, margin + poleTopWidth - headRadius * maskRatio, margin + poleBitLen + headRadius + headRadius * maskRatio)
+    canvas.create_line(margin + poleTopWidth + headRadius * maskRatio, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius * maskRatio, margin + poleBitLen + headRadius + headRadius * maskRatio)
+
+
+    
+                        
 def makeCanvas(w, h):
     root = tk.Tk()
     canvas = tk.Canvas(root, width=w, height=h)
@@ -63,10 +73,3 @@ def makeCanvas(w, h):
     root.mainloop()
 
 makeCanvas(500, 500)
-
-###adding mask here dont know how you wanna put it in###
-canvas.create_line(margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius, margin + poleBitLen + headRadius)
-canvas.create_line(margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius + headRadius * 0.75, margin + poleTopWidth + headRadius, margin + poleBitLen + headRadius + headRadius * 0.75)
-canvas.create_line(margin + poleTopWidth - headRadius * 0.75, margin + poleBitLen + headRadius, margin + poleTopWidth - headRadius * 0.75, margin + poleBitLen + headRadius + headRadius * 0.75)
-canvas.create_line(margin + poleTopWidth + headRadius * 0.75, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius * 0.75, margin + poleBitLen + headRadius + headRadius * 0.75)
-
