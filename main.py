@@ -4,12 +4,14 @@ import tkinter as tk
 import requests
 from tkinter import *
 from PIL import ImageTk,Image
+from tkinter import simpledialog
+from tkinter import messagebox
 
 #from https://www.cs.cmu.edu/~112/notes/notes-graphics.html#customColors
 def rgbString(r, g, b):
-    # Don't worry about the :02x part, but for the curious,
-    # it says to use hex (base 16) with two digits.
     return f'#{r:02x}{g:02x}{b:02x}'
+
+
 
 def drawLabels(canvas, w, h, margin):
     textMarginRatio = 2
@@ -102,8 +104,9 @@ def drawMask(canvas, margin, poleTopWidth, headRadius, poleBitLen):
     canvas.create_rectangle(15 + margin + poleTopWidth - headRadius, margin + poleBitLen + headRadius, margin + poleTopWidth + headRadius - 15, margin + poleBitLen + headRadius + headRadius * maskRatio, fill = fill)
     img = ImageTk.PhotoImage(Image.open('BigBoi32.png'))
     canvas.img = img
+    
+    canvas.create_image(margin+poleTopWidth, margin+poleBitLen+headRadius, image = img, anchor = 'n')
     canvas.pack()
-    canvas.create_image(margin+poleTopWidth, margin+poleBitLen+headRadius, image = img)
 
 def drawBody(canvas, margin, poleTopWidth, poleBitLen, headRadius, bodyLength):
     canvas.create_line(margin + poleTopWidth, margin + poleBitLen + headRadius * 2, margin + poleTopWidth, margin + poleBitLen + headRadius * 2 + bodyLength, width = 10)
@@ -128,7 +131,6 @@ def drawHangman(canvas, w, h, state):
     armWidth = 3.5 * headRadius
     increment = 0.01
     
-    state = state
     caseRatio, validState = getCases(state, increment)
     while(not validState):
         state = input("Not enough data for that state. Please choose another:")
@@ -139,8 +141,68 @@ def drawHangman(canvas, w, h, state):
     drawLabels(canvas, w, h, margin)
     drawPole(canvas, h, margin, poleLength, poleBaseWidth, poleTopWidth, poleX, poleBitLen)
 
+    states = {
+        'az' : 'Arizona',
+        'ak' : 'Alaska',
+        'al' : 'Alabama',
+        'ar' : 'Arkansas',
+        'ca' : 'California',
+        'co' : 'Colorado',
+        'ct': 'Connecticut',
+        'de': 'Delaware',
+        'fl': 'Florida',
+        'ga': 'Georgia',
+        'hi' : 'Hawaii',
+        'id' : 'Idaho',
+        'il' : 'Illinois',
+        'in' : 'Indiana',
+        'ia' : 'Iowa',
+        'ks' : 'Kansas',
+        'ky' : 'Kentucky',
+        'la': 'Louisiana',
+        'me' : 'Maine',
+        'md' : 'Maryland',
+        'ma' : 'Massachusetts',
+        'mi' : 'Michigan',
+        'mn' : 'Minnesota',
+        'ms' : 'Mississippi',
+        'mo': 'Missouri',
+        'mt': 'Montana',
+        'ne': 'Nebraska',
+        'nv': 'Nevada',
+        'nh': 'New Hampshire',
+        'nm': 'New Mexico',
+        'ny': 'New York',
+        'nc': 'North Carolina',
+        'nd': 'North Dakota',
+        'oh': 'Ohio',
+        'ok': 'Oklahoma', 
+        'or': 'Oregon', 
+        'pw': 'Palau',
+        'pa': "Pennsylvania", 
+        'pr': "Puerto Rico", 
+        'ri': 'Rhode Island', 
+        'sc': 'South Carolina', 
+        'sd': 'South Dakota', 
+        'tn': 'Tennessee', 
+        'tx': 'Texas', 
+        'ut': 'Utah', 
+        'vt': 'Vermont',  
+        'va': 'Virginia', 
+        'vi': 'Virgin Islands', 
+        'wa': 'Washington', 
+        'wv': 'West Virginia', 
+        'wi': 'Wisconsin',
+        'wy': 'Wyoming',
+        'dc': 'Washington DC',
+        'gu': 'Guam',
+        'pr': 'Puerto Rico'
+    }
+
+
+    printState = states.get(state)
     #displays data
-    canvas.create_text(w-margin, margin, text = f"State: {state.upper()}", anchor = 'ne', font = "Nunito 20 bold")
+    canvas.create_text(w-margin, margin, text = f"State: {printState}", anchor = 'ne', font = "Nunito 20 bold")
     canvas.create_text(w-margin, margin+20, text = "Positivity rate: %0.2f" % (caseRatio*100) + "%", anchor = 'ne', font = "Nunito 15 bold")
     canvas.create_text(w-(margin//2), h-(margin//2), text = "Source: https://covidtracking.com", anchor = "se", font = "Nunito 7")
 
@@ -159,6 +221,7 @@ def drawHangman(canvas, w, h, state):
         drawMask(canvas, margin, poleTopWidth, headRadius, poleBitLen)
         canvas.create_text(w//2, h-margin, text = "Stay inside as much as possible!", anchor = 's', font = "Nunito 20 bold", fill = rgbString(196, 18, 48))
     
+
     makeCanvas(w,h)
 
 def makeCanvas(w, h):
@@ -169,5 +232,5 @@ def makeCanvas(w, h):
     canvas.pack()
     drawHangman(canvas, w, h, state)
     root.mainloop()
-    
+
 makeCanvas(500, 500)
